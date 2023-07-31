@@ -4,7 +4,7 @@ const path = require("path");
 const message = { message: "Source deleted successfully" };
 const error = { error: "Failed to delete source" };
 
-module.exports = async function deleteFolder(folderPath) {
+async function deleteFolder(folderPath) {
   try {
     if (fs.existsSync(folderPath)) {
       const files = await fs.promises.readdir(folderPath);
@@ -23,6 +23,6 @@ module.exports = async function deleteFolder(folderPath) {
     console.log("err: ", err);
     return error;
   }
-};
+}
 
-module.exports = {message,error}
+module.exports = { deleteFolder, message, error };

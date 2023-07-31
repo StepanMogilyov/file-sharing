@@ -1,11 +1,10 @@
 const router = require("express").Router();
 const fs = require("fs");
-const { message } = require("../fs/deleteFolder");
-
+const { message, deleteFolder } = require("../fs/deleteFolder");
 
 router.post("/", async (req, res) => {
-  const { folderPath } = req.body;
-  const fullPath = `fileStorage/${folderPath}`;
+  const { pathToSource } = req.body;
+  const fullPath = `fileStorage/${pathToSource}`;
   if (fs.existsSync(fullPath) && fs.lstatSync(fullPath).isDirectory()) {
     const result = await deleteFolder(fullPath);
     if (result.message) {

@@ -20,12 +20,8 @@ async function checkLink(folderPath, sourceName, type, address) {
 }
 
 router.post("/", async (req, res) => {
-  const { sourcePath, address } = req.body;
-  const indexOfLastSlash = sourcePath.lastIndexOf("/");
-  const folderPath = sourcePath.substring(0, indexOfLastSlash);
-  const sourceName = sourcePath.substring(indexOfLastSlash + 1, sourcePath.length);
-  const sourceType = fs.lstatSync(`fileStorage/${sourcePath}`).isDirectory();
-
+  const { sourceName, pathToSource, folderPath, address } = req.body;
+  const sourceType = fs.lstatSync(`fileStorage/${pathToSource}`).isDirectory();
   checkLink(folderPath, sourceName, sourceType ? "folder" : "file", address);
   res.end();
 });

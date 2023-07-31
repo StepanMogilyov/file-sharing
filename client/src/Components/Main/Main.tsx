@@ -19,6 +19,7 @@ interface PropTypes {
 
 export interface SourcesProps {
   sourceName: string;
+  type: string;
   link: string;
 }
 
@@ -69,12 +70,12 @@ const Main: React.FC<PropTypes> = ({ user }) => {
   if (!sources) return <Spinner />;
 
   return (
-    <>
+    <div style={{ height: "100%" }}>
       <button onClick={() => changeFolderHandler(user.userId.toString())}>Main</button>
       {folderPaths.map((path) => (
         <FolderPath key={uuidv4()} path={path} changeFolderHandler={changeFolderHandler} />
       ))}
-      <div style={{ display: "flex", height: "100%" }}>
+      <div style={{ display: "flex", height: "95%" }}>
         <Sources sources={sources} folderPath={folderPath.current} updateHandler={updateHandler} openFolderHandler={openFolderHandler} goBackHandler={goBackHandler} />
         <div style={{ flexBasis: "60%" }}>
           <ContextMenu updateHandler={updateHandler} folderPath={folderPath.current} />
@@ -83,7 +84,7 @@ const Main: React.FC<PropTypes> = ({ user }) => {
           <DragAndDrop updateHandler={updateHandler} sources={sources} folderPath={folderPath.current} user={user} />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

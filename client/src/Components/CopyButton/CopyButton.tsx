@@ -23,6 +23,7 @@ const CopyButton: React.FC<PropTypes> = ({ link }) => {
   const buttonStyle = {
     color: isHovered ? "orange" : "black",
     cursor: "pointer",
+    fontSize: "2em",
   };
 
   return <CopyOutlined style={buttonStyle} onClick={() => copyLinkHandler(link)} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} />;
