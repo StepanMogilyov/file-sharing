@@ -1,4 +1,4 @@
-import React, { useState, useRef, DragEvent, Dispatch, SetStateAction } from "react";
+import { useState, useRef, DragEvent, Dispatch, SetStateAction } from "react";
 import { UserInt } from "../../store/user/actionCreators";
 import Warning from "../Warning/Warning";
 import UploadFile from "./UploadFile";

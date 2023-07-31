@@ -12,7 +12,10 @@ const loginRouter = require("../src/routes/logUser");
 const createFolder = require("../src/routes/createFolder");
 const getSources = require("../src/routes/getSources");
 const checkSources = require("../src/fs/checkSources");
-const deleteSource=require("../src/routes/deleteSource");
+const deleteSource = require("../src/routes/deleteSource");
+const shareSource = require("../src/routes/shareSource");
+const downloadSources = require("../src/routes/downloadSources");
+const getSourceByLink = require("../src/routes/getSourceByLink");
 
 module.exports = function configApp(app) {
   app.use(morgan("dev"));
@@ -47,6 +50,9 @@ module.exports = function configApp(app) {
   app.use("/send-file", checkSources, upload.array("files"), handler);
   app.use("/get-sources", getSources);
   app.use("/delete-source", deleteSource);
+  app.use("/share-source", shareSource);
+  app.use("/download-sources", downloadSources);
+  app.use("/get-source-by-link", getSourceByLink);
 
   //for deploy
   app.get("*", (req, res) => {

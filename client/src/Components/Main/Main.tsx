@@ -5,8 +5,8 @@ import getSources from "../../helpers/requests/getSources";
 import DragAndDrop from "../DragAndDrop/DragAndDrop";
 import Spinner from "../Spinner/Spinner";
 import ContextMenu from "../ContextMenu/ContextMenu";
-import Sources from "./Sources/Sources";
-import FolderPath from "./FolderPath/FolderPath";
+import Sources from "../Sources/Sources";
+import FolderPath from "../FolderPath/FolderPath";
 
 interface PropTypes {
   user: {
@@ -17,8 +17,13 @@ interface PropTypes {
   };
 }
 
+export interface SourcesProps {
+  sourceName: string;
+  link: string;
+}
+
 const Main: React.FC<PropTypes> = ({ user }) => {
-  const [sources, setSources] = useState<string[] | null>(null);
+  const [sources, setSources] = useState<[] | null>(null);
   const [update, setUpdate] = useState<number>(0);
   const [folderPaths, setFolderPaths] = useState<string[]>([]);
   const folderPath = useRef<string>(user.userId.toString());
@@ -30,7 +35,7 @@ const Main: React.FC<PropTypes> = ({ user }) => {
 
   const initSources = async (folderPath: string) => {
     const sources = await getSources(folderPath);
-    setSources(sources.sourcesList);
+    setSources(sources);
   };
 
   const goBackHandler = () => {
@@ -40,20 +45,20 @@ const Main: React.FC<PropTypes> = ({ user }) => {
   };
 
   const changeFolderHandler = async (path: string) => {
-    const copyPaths = [...folderPaths];
-    const indexOfPath = copyPaths.indexOf(path);
-    folderPath.current = copyPaths[indexOfPath];
-    copyPaths.splice(indexOfPath + 1, copyPaths.length);
-    setFolderPaths(copyPaths);
+    if (path !== user.userId.toString()) {
+      const copyPaths = [...folderPaths];
+      const indexOfPath = copyPaths.indexOf(path);
+      folderPath.current = copyPaths[indexOfPath];
+      copyPaths.splice(indexOfPath + 1, copyPaths.length);
+      setFolderPaths(copyPaths);
+    } else {
+      folderPath.current = path;
+      setFolderPaths([]);
+    }
   };
 
   const updateHandler = () => {
     setUpdate((prev) => prev + 1);
-  };
-
-  const openMainHandler = () => {
-    folderPath.current = user.userId.toString();
-    setFolderPaths([]);
   };
 
   const openFolderHandler = async (folderName: string) => {
@@ -65,8 +70,7 @@ const Main: React.FC<PropTypes> = ({ user }) => {
 
   return (
     <>
-      {/* <button onClick={() => console.log(folderPath)}>TEST</button> */}
-      <button onClick={openMainHandler}>Main</button>/
+      <button onClick={() => changeFolderHandler(user.userId.toString())}>Main</button>
       {folderPaths.map((path) => (
         <FolderPath key={uuidv4()} path={path} changeFolderHandler={changeFolderHandler} />
       ))}

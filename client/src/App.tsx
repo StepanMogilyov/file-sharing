@@ -8,6 +8,7 @@ import Main from "./Components/Main/Main";
 import Auth from "./Components/Auth/Auth";
 import Spinner from "./Components/Spinner/Spinner";
 import checkUser from "./helpers/requests/chekUser";
+import Download from "./Components/Download/Download";
 
 function App() {
   const navigate = useNavigate();
@@ -19,7 +20,6 @@ function App() {
       const response = await checkUser();
       response ? dispatch(getUser(response)) : navigate("/auth");
     })();
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -30,6 +30,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main user={user} />} />
         <Route path="/auth" element={<Auth />} />
+        <Route path="/sharing/:id" element={<Download />} />
       </Routes>
     </>
   );
