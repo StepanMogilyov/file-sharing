@@ -3,11 +3,10 @@ import { Button } from "antd";
 import { v4 as uuidv4 } from "uuid";
 
 import { SourcesProps } from "../Main/Main";
-import FolderIcon from "../FolderIcon/FolderIcon";
-import FileIcon from "../FileIcon/FileIcon";
 import deleteSource from "../../helpers/requests/deleteSource";
 import shareSource from "../../helpers/requests/shareSource";
 import downloadHandler from "../../helpers/requests/downloadSource";
+import FileMenu from "../FileMenu/FileMenu";
 
 interface PropTypes {
   sources: SourcesProps[];
@@ -18,7 +17,6 @@ interface PropTypes {
 }
 
 const Sources: React.FC<PropTypes> = ({ sources, folderPath, updateHandler, openFolderHandler, goBackHandler }) => {
-
   const deleteSourceHandler = async (pathToSource: string) => {
     await deleteSource(pathToSource);
     updateHandler();
@@ -28,12 +26,10 @@ const Sources: React.FC<PropTypes> = ({ sources, folderPath, updateHandler, open
     const address = `${window.location.origin}/sharing/`;
     const source = sources.find((item: SourcesProps) => item.sourceName === sourceName);
 
-    if (!source) return;
-
-    if (!source.link.length) {
+    if (source && source.link.length) {
       await shareSource(sourceName, pathToSource, folderPath, address);
       updateHandler();
-    } else navigator.clipboard.writeText(source.link);
+    }
   };
 
   return (
@@ -42,33 +38,19 @@ const Sources: React.FC<PropTypes> = ({ sources, folderPath, updateHandler, open
         <div style={{ height: "100%", display: "flex", flexDirection: "column" }}>
           {sources.length ? (
             sources.map((source: SourcesProps) => {
-              if (source.type === "folder") {
-                return (
-                  <FolderIcon
-                    key={uuidv4()}
-                    sourceName={source.sourceName}
-                    folderPath={folderPath}
-                    type={source.type}
-                    link={source.link}
-                    downloadHandler={downloadHandler}
-                    openFolderHandler={openFolderHandler}
-                    shareSourceHandler={shareSourceHandler}
-                    deleteSourceHandler={deleteSourceHandler}
-                  />
-                );
-              } else
-                return (
-                  <FileIcon
-                    key={uuidv4()}
-                    sourceName={source.sourceName}
-                    folderPath={folderPath}
-                    type={source.type}
-                    link={source.link}
-                    downloadHandler={downloadHandler}
-                    shareSourceHandler={shareSourceHandler}
-                    deleteSourceHandler={deleteSourceHandler}
-                  />
-                );
+              return (
+                <FileMenu
+                  key={uuidv4()}
+                  sourceName={source.sourceName}
+                  folderPath={folderPath}
+                  type={source.type}
+                  link={source.link}
+                  downloadHandler={downloadHandler}
+                  openFolderHandler={openFolderHandler}
+                  shareSourceHandler={shareSourceHandler}
+                  deleteSourceHandler={deleteSourceHandler}
+                />
+              );
             })
           ) : (
             <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", height: "100%" }}>

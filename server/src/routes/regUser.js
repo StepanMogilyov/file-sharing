@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
-const createDir = require("../fs/createDir");
 const { User } = require("../../db/models");
 
 router.post("/", async (req, res) => {
@@ -17,7 +16,6 @@ router.post("/", async (req, res) => {
       req.session.save(() => {
         res.json({ isApproved: true, name: newUser.name, surname: newUser.surname, email: newUser.email, userId: newUser.id });
       });
-      await createDir(`fileStorage/${newUser.dataValues.id.toString()}`);
     } else {
       res.json({ isApproved: false, notification: "The address is already in use" });
     }

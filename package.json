@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "db": "cd server && npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all",
-    "builder": "cd server && npm i && npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all && cd ../client && npm i && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "builder": "cd server && npm i && npx sequelize db:migrate:undo:all && npx sequelize db:migrate && npx sequelize db:seed:all && cd ../client && npm i && npm run build"
   },
   "keywords": [],
   "author": "",

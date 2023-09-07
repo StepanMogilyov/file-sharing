@@ -1,5 +1,6 @@
+import { useState } from "react";
+import { message } from "antd";
 import { CopyOutlined } from "@ant-design/icons";
-import React, { useState } from "react";
 
 interface PropTypes {
   link: string;
@@ -7,9 +8,18 @@ interface PropTypes {
 
 const CopyButton: React.FC<PropTypes> = ({ link }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
+
+  const success = () => {
+    messageApi.open({
+      type: "success",
+      content: "Ссылка скопирована",
+    });
+  };
 
   const copyLinkHandler = (link: string) => {
     navigator.clipboard.writeText(link);
+    success();
   };
 
   const mouseEnterHandler = () => {
@@ -26,7 +36,12 @@ const CopyButton: React.FC<PropTypes> = ({ link }) => {
     fontSize: "2em",
   };
 
-  return <CopyOutlined style={buttonStyle} onClick={() => copyLinkHandler(link)} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} />;
+  return (
+    <>
+      {contextHolder}
+      <CopyOutlined style={buttonStyle} onClick={() => copyLinkHandler(link)} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler} />
+    </>
+  );
 };
 
 export default CopyButton;

@@ -7,7 +7,7 @@ module.exports = function downloadFolder(sourcePath, _, res) {
     if (!fs.existsSync(sourcePath) || !fs.lstatSync(sourcePath).isDirectory()) {
       return res.status(404).json({ error: "Папка не найдена" });
     }
-    const outputFilePath = path.join(__dirname, "temp_archive.zip");
+    const outputFilePath = path.join(__dirname,"../../temp", "temp_archive.zip");
     const output = fs.createWriteStream(outputFilePath);
     const archive = archiver("zip");
     archive.pipe(output);

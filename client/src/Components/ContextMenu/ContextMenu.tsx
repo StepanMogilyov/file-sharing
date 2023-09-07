@@ -1,6 +1,6 @@
 import { useState } from "react";
-import type { MenuProps } from "antd";
 import { Button, Dropdown, Input, Modal, Space } from "antd";
+import type { MenuProps } from "antd";
 
 import createFolder from "../../helpers/requests/createFolder";
 
